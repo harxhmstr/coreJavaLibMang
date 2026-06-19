@@ -63,8 +63,11 @@ public class BookDriver {
 		case 5: 
 			return_();
 			break;
-		case 6:
+		case 6:{
+			System.out.println("the application terminates!!!");
 			System.exit(0);
+		}
+			
 		default: 
 			System.out.println("Invalid input");
 		}
@@ -97,8 +100,12 @@ public class BookDriver {
 	
 	static void borrow() {
 		Book b= search();
-		if(b.available!=true) {
-			System.out.println("book cannot be borrowed");
+		if(b==null || b.available!=true) {
+			try {
+				throw new BookNotAvialable();
+			}catch(BookNotAvialable e) {
+				System.out.println("book is not available to borrow");
+			}
 			return;
 		}
 		
@@ -112,6 +119,14 @@ public class BookDriver {
 	
 	static void return_() {
 		Book b = (Book)search();
+		if(b==null) {
+			try {
+				throw new BookNotAvialable();
+			}catch(BookNotAvialable e) {
+				System.out.println("book is not available to borrow");
+				return;
+			}			
+		}
 		System.out.println("returned sucessfully");
 		b.available=true;
 	}
